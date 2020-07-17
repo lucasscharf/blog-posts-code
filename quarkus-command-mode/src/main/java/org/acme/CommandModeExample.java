@@ -6,18 +6,18 @@ import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 
 @QuarkusMain
-public class ExamploModoComando implements QuarkusApplication {
+public class CommandModeExample implements QuarkusApplication {
 
   @Inject
-  ServicoInjetado servico;
+  InjectedService service;
 
   @Override
   public int run(String... args) throws Exception {
 
     if (args.length > 0) {
-      servico.chamar(args[0]);
+      service.call(args[0]);
     } else {
-      servico.chamar("");
+      service.call("");
     }
 
     return 0;
