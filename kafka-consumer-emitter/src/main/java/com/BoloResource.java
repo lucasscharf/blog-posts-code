@@ -3,6 +3,7 @@ package com;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -20,17 +21,26 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 
 @Path("/bolo")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class BoloResource {
+  @Inject
+  @Channel("add-bolo")
+  Emitter<Bolo> addEmitter;
+  
+  @Inject
+  @Channel("delete-bolo")
+  Emitter<String> deleteEmitter;
 
   @PostConstruct
   @Transactional
   public void init() {
-    new Bolo("Chocolate", "Melhor bolo do mundo").persist();;
-    new Bolo("Sensação", "Chocolate com morango").persist();;
+    new Bolo("Chocolate", "Melhor bolo do mundo").persist();
+    new Bolo("Sensação", "Chocolate com morango").persist();
   }
 
   @GET
@@ -63,6 +73,7 @@ public class BoloResource {
                   implementation = Bolo.class))) Bolo bolo) {
     bolo.id = null; //coisa feia, não façam isso em casa
     bolo.persist();
+    addEmitter.send(bolo);
     return list();
   }
 
@@ -79,6 +90,7 @@ public class BoloResource {
       @Parameter(description = "Nome do bolo a ser retirado", required = true) //
       @PathParam("nome") String nome) {
     Bolo.delete("nome", nome);
+    deleteEmitter.send(nome);
     return Bolo.listAll();
   }
 }
