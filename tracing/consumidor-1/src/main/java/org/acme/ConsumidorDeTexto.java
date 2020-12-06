@@ -1,33 +1,31 @@
 package org.acme;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.eclipse.microprofile.opentracing.Traced;
-import org.eclipse.microprofile.reactive.messaging.Incoming;
+import io.smallrye.common.annotation.Blocking;
 
 public class ConsumidorDeTexto {
-    Logger logger = LoggerFactory.getLogger(getClass());
+  Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Channel("emissor2")
-  @Inject
-  Emitter<String> emitter;
+  // @Channel("emissor2")
+  // @Inject
+  // Emitter<String> emitter;
 
   @Incoming("consumidor")
-  public void consumir(String texto) throws Exception {
+  @Outgoing("emissor2")
+  @Blocking
+  public String consumir(String texto) throws Exception {
     Thread.sleep(2000);
     logger.info("Texto: " + texto);
-    emitter.send(texto);
+    // emitter.send(texto);
+    return texto;
   }
 
   @Incoming("consumidor2")

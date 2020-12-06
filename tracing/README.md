@@ -1,3 +1,2 @@
-# code-base
-
-Simple shortcut to projects. So, I just need copy it instead use [code.quarkus.io](https://code.quarkus.io/).
+THIS CODE IS NOT READY YET.
+I'm just studying about tracing and quarkus. So don't use it

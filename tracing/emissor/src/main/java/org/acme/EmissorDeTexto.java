@@ -25,14 +25,11 @@ public class EmissorDeTexto {
   @POST
   @Path("/{texto}")
   public void hello(@PathParam("texto") String texto) {
-    for (int i = 0; i < 10; i++)
+    logger.info("Emitindo mensagens...");
+    for (int i = 0; i < 10; i++) {
       emitter.send(texto);
+    }
+    logger.info("Mensagens emitidas!");
   }
 
-  @GET
-  @Produces(MediaType.TEXT_PLAIN)
-  public String hello() {
-    logger.info("hello");
-    return "hello";
-  }
 }

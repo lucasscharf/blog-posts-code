@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>cadastro-de-bolo</groupId>
-  <artifactId>kafka-consumer-emitter</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <groupId>org.acme</groupId>
+  <artifactId>tracing</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <properties>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
     <maven.compiler.target>11</maven.compiler.target>
@@ -16,6 +17,7 @@
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <quarkus-plugin.version>1.10.2.Final</quarkus-plugin.version>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
+    <opentracing-kafka.version>0.1.15</opentracing-kafka.version>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
   </properties>
   <dependencyManagement>
@@ -46,11 +48,7 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy-jsonb</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+      <artifactId>quarkus-smallrye-opentracing</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -58,15 +56,22 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.opentracing.contrib</groupId>
+      <artifactId>opentracing-kafka-client</artifactId>
+      <version>${opentracing-kafka.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jackson</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-jdbc-postgresql</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-hibernate-orm-panache</artifactId>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.12</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>
